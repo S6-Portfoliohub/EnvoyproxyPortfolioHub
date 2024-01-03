@@ -24,6 +24,10 @@ static_resources:
                   prefix: "/api/Project/"
                 route:
                   cluster: accountpage
+              - match:
+                  prefix: "/api/Create/"
+                route:
+                  cluster: createpage
   clusters:
     - name: accountpage
       connect_timeout: 5s
@@ -37,4 +41,17 @@ static_resources:
               address:
                 socket_address:
                   address: "accountpage"
+                  port_value: 80
+    - name: createpage
+      connect_timeout: 5s
+      lb_policy: ROUND_ROBIN
+      type: strict_dns
+      load_assignment:
+        cluster_name: createpage
+        endpoints:
+        - lb_endpoints:
+          - endpoint:
+              address:
+                socket_address:
+                  address: "createpage"
                   port_value: 80
