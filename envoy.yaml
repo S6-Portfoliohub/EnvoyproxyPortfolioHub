@@ -23,18 +23,18 @@ static_resources:
               - match:
                   prefix: "/api/Project/"
                 route:
-                  cluster: accountpage
+                  cluster: accountpage-service
               - match:
                   prefix: "/api/Create/"
                 route:
                   cluster: createpage
   clusters:
-    - name: accountpage
+    - name: accountpage-service
       connect_timeout: 5s
       lb_policy: ROUND_ROBIN
       type: strict_dns
       load_assignment:
-        cluster_name: accountpage
+        cluster_name: accountpage-service
         endpoints:
         - lb_endpoints:
           - endpoint:
