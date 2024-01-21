@@ -12,6 +12,24 @@ static_resources:
           "@type": type.googleapis.com/envoy.extensions.filters.network.http_connection_manager.v3.HttpConnectionManager
           stat_prefix: edge
           http_filters:
+          - name: envoy.filters.http.jwt_authn
+            typed_config:
+              "@type": type.googleapis.com/envoy.config.filter.http.jwt_authn.v2alpha.JwtAuthentication
+              providers:
+                provider1:
+                  issuer: issuer1
+                  audiences:
+                  - audience1
+                  - audience2
+                  local_jwks:
+                    inline_string: '{"keys":[{"kty":"RSA","use":"sig","kid":"029a63dd-2b92-4a41-84b8-8d1f746231f6","e":"AQAB","n":"sqfMZMksH7JZIVK2416me-vp5RAJ25dPDGO1Ll9txM9q-q5im1ZtA3Fn9MT3n3_NkrVIm8Zv6r6IJdBeHC3q8thk8Nw_TL2N9DkA8pHoJz0STH5BFoOzwvTqb68BU6FcdJUlrqeJxkrY7dV_xz7Cs4xsI5QnG9SDBVRH-Dbg4CKRXjPsuoG5_0Zl1kl36FLJ09t2XXFsvVxg1ZVdHJH6Zzk7oglsC3IImFMZgTsyURRdtCRaw_1prEkRdYa9gEbSNkHqMH9wK6-kUNwLzR2olXVu5VEruNEcSe17Q98TZWCkKjWyvEZXjP-L60AzytKB3RL7Z7rZMlG1gjWTkzLL5Q"}]'
+                  forward: true
+                  forward_payload_header: x-jwt-payload
+              rules:
+              - match:
+                  prefix: /api/Create/
+                requires:
+                  provider_name: provider1
           - name: envoy.filters.http.router
             typed_config:
               "@type": type.googleapis.com/envoy.extensions.filters.http.router.v3.Router
