@@ -24,16 +24,10 @@ static_resources:
                   prefix: "/api/Project/"
                 route:
                   cluster: accountpage-service
-            - name: all_domains
-              domains: ["*"]
-              routes:
               - match:
                   prefix: "/api/Create/"
                 route:
                   cluster: accountpage-service
-            - name: all_domains
-              domains: ["*"]
-              routes:
               - match:
                   prefix: "/api/Showcase/"
                 route:
